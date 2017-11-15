@@ -10,6 +10,7 @@ import (
 	"github.com/icrowley/fake"
 	"time"
 	"math/rand"
+	"sort"
 )
 
 var (
@@ -42,6 +43,20 @@ type Meeting struct {
 type Competitors struct {
 	Position int    `json:"position"`
 	Name     string `json:"name"`
+}
+
+type bySuspend []Race
+
+func (a bySuspend) Len() int      { return len(a) }
+func (a bySuspend) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a bySuspend) Less(i, j int) bool {
+	if a[i].Suspend < a[j].Suspend {
+		return true
+	}
+	if a[i].Suspend > a[j].Suspend {
+		return false
+	}
+	return a[i].Suspend < a[j].Suspend
 }
 
 func random(min, max int) int {
@@ -87,6 +102,8 @@ func buildDataSet() []Race {
 			Competitors: competitors,
 		})
 	}
+
+	sort.Sort(bySuspend(race))
 
 	return race
 }
