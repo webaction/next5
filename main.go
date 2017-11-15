@@ -108,11 +108,23 @@ func buildDataSet() []Race {
 	return race
 }
 
+func FilterRaces(vs []Race) []Race {
+	vsf := make([]Race, 0)
+	i := 0
+	for _, v := range vs {
+		if v.Suspend >= time.Now().Unix() && i < 5 {
+			vsf = append(vsf, v)
+			i++
+		}
+	}
+	return vsf
+}
+
 func GetRaces(writer http.ResponseWriter, request *http.Request) {
 
 	writer.Header().Set("Access-Control-Allow-Origin", "*")
 	writer.Header().Set("Content-Type", "application/javascript")
-	json.NewEncoder(writer).Encode(races)
+	json.NewEncoder(writer).Encode(FilterRaces(races))
 }
 
 func main() {
