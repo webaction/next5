@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"net/http"
 	"log"
 	"flag"
 	"encoding/json"
-	"github.com/icrowley/fake"
 	"time"
 	"math/rand"
 	"sort"
+
+	"github.com/gorilla/mux"
+	"github.com/icrowley/fake"
 )
 
 var (
